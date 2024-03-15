@@ -99,7 +99,7 @@ public abstract class BacktrackingSearch <X, V> {
      * @return
      */
     public boolean initAC3(){
-        //TODO: create a queue that contains all the arcs; call AC3() with this queue.
+        // Creates a queue that contains all the arcs; call AC3() with this queue.
         Queue<Arc<X>> arcs = new LinkedList<>();
         for(X v : allVariables.keySet()){
             for(X n : problem.getNeighborsOf(v)){
@@ -119,7 +119,7 @@ public abstract class BacktrackingSearch <X, V> {
             return true;
         }
         assigned.add(n);
-       // System.out.println(n+", "+assigned.size());
+        System.out.println(n+", "+assigned.size());
         while(!allVariables.get(n).domain().isEmpty()) {
             //select a value to be assigned to this variable
             V value = allVariables.get(n).domain().remove(0);
@@ -139,11 +139,11 @@ public abstract class BacktrackingSearch <X, V> {
             if (AC3(arcs) && search()) {
                 return true;
             } else {
-                //System.out.println(n+" reverting");
+                System.out.println(n+" reverting");
                 revert(allVariablesClone);
             }
         }
-       // System.out.println(n+" failed");
+        System.out.println(n+" failed");
         assigned.remove(n);
         return false;
     }
