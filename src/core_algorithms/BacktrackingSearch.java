@@ -69,7 +69,28 @@ public abstract class BacktrackingSearch <X, V> {
      * @return false if consistency could not be maintained, true otherwise
      */
     public boolean AC3(Queue<Arc<X>> arcs){
-        //TODO
+        while (!arcs.isEmpty()) {
+            Arc<X> arc = arcs.poll();
+            X head = arc.head();
+            X tail = arc.tail();
+
+            if (revise(head, tail)) {
+                // If revise for this head/tail returns true
+                // (Meaning the domain of the head variable was changed)
+                if (allVariables.get(head).domain().isEmpty()) {
+                    // If the domain becomes empty, return false
+                    return false;
+                }
+                // Add arcs to the queue for the neighbors of the head variable
+                for (X neighbor : problem.getNeighborsOf(head)) {
+                    // Skip tail variable
+                    if (!neighbor.equals(tail)) {
+                        arcs.add(new Arc<>(neighbor, head));
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     /**
